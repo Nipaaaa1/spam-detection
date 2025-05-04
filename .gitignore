@@ -1,0 +1,22 @@
+# node_modules dan cache pnpm
+node_modules/
+.pnpm-store/
+
+# Output build (kalau pakai tsc)
+dist/
+build/
+
+# File log & lockfile yarn/npm
+*.log
+yarn.lock
+package-lock.json
+
+# Optional: ignore environment & editor files
+.env
+.env.local
+.DS_Store
+*.swp
+
+# Optional: editor settings
+.vscode/
+.idea/
