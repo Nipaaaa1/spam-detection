@@ -3,6 +3,7 @@ import path from "path";
 import readline from "readline";
 import { preprocess } from "./utils/text";
 import { NaiveBayes } from "../models/naive-bayes";
+import { loadValidWords } from "./utils/file";
 
 const modelJson = fs.readFileSync(path.resolve("saved/model.json"), "utf-8");
 const parsed = JSON.parse(modelJson);
@@ -15,13 +16,13 @@ const rl = readline.createInterface({
 });
 
 const prompt = () => {
-  rl.question("Masukkan pesan untuk diprediksi (atau ketik 'exit' untuk keluar): ", (input) => {
+  rl.question("Masukkan pesan untuk diprediksi (atau ketik 'exit' untuk keluar): ", async (input) => {
     if (input.toLowerCase() === "exit") {
       rl.close();
       return;
     }
-
-    const tokens = preprocess(input);
+    const validWords = await loadValidWords("models/valid-words.json")
+    const tokens = preprocess(input, validWords);
     const prediction = model.predict(tokens);
     console.log(`Prediksi: ${prediction}\n`);
     prompt();
