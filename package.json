@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "train": "tsx ./src/train.ts",
-    "evaluate": "tsx ./src/evaluate.ts"
+    "evaluate": "tsx ./src/evaluate.ts",
+    "predict": "tsx ./src/predict.ts"
   },
   "keywords": [],
   "author": "Nipaaaa1",
