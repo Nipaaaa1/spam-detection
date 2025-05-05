@@ -16,14 +16,16 @@ Sebuah proyek sederhana untuk mendeteksi spam SMS menggunakan algoritma **Naive 
 
 ```
 ├── data/              # Dataset asli (SMS Spam Collection)
-├── model/             # File model hasil training
-├── utils/             # Helper function untuk text & file
-├── naiveBayes.ts      # Implementasi core Naive Bayes
-├── train.ts           # Script untuk training
-├── predict.ts         # CLI prediksi pesan
-├── evaluate.ts        # Evaluasi performa model
-├── split.ts           # Split dataset ke train/test
-└── README.md
+├── saved/             # Model hasil training (JSON)
+├── model/             # Implementasi core Naive Bayes & validWords
+│   └── naive-bayes.ts
+├── src/               # Semua source code utama
+│   ├── utils/         # Helper function untuk text & file
+│   ├── train.ts       # Script untuk training
+│   ├── predict.ts     # CLI prediksi pesan
+│   └── evaluate.ts    # Evaluasi performa model
+├── README.md
+└── LICENSE
 ```
 
 ## Cara Jalanin
