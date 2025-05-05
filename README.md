@@ -56,7 +56,7 @@ pnpm evaluate
 
 ## Dataset
 
-Proyek ini menggunakan dataset SMS Spam Collection dari UCI Machine Learning Repository.
+Proyek ini menggunakan dataset [SMS Spam Collection](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset) dari UCI Machine Learning Repository.
 
 ## Progress & Akurasi
 
