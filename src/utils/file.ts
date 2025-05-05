@@ -3,7 +3,9 @@ import * as fsAsync from "fs/promises"
 import path from "path";
 import { parse } from "csv-parse/sync";
 
-export const loadSMSDataset = (filePath: string): { label: "spam" | "ham"; text: string }[] => {
+type LabeledText = { label: 'spam' | 'ham'; text: string };
+
+export const loadSMSDataset = (filePath: string): LabeledText[] => {
   const fullPath = path.resolve(filePath);
   const file = fs.readFileSync(fullPath, "utf-8");
   const records = parse(file, {
@@ -17,6 +19,23 @@ export const loadSMSDataset = (filePath: string): { label: "spam" | "ham"; text:
     text: row[1],
   }));
 }
+
+
+export const oversample = (data: LabeledText[]): LabeledText[] => {
+  const spam = data.filter(d => d.label === 'spam');
+  const ham = data.filter(d => d.label === 'ham');
+
+  if (spam.length === 0 || spam.length >= ham.length) return data;
+
+  const additionalSpam: LabeledText[] = [];
+  let i = 0;
+  while (spam.length + additionalSpam.length < ham.length) {
+    additionalSpam.push(spam[i % spam.length]);
+    i++;
+  }
+
+  return [...data, ...additionalSpam];
+};
 
 export function splitDataset<T>(data: T[], trainRatio = 0.8): { train: T[]; test: T[] } {
   const shuffled = [...data].sort(() => Math.random() - 0.5);

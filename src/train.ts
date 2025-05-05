@@ -1,6 +1,6 @@
 import path from "path";
 import { NaiveBayes } from "../models/naive-bayes";
-import { loadSMSDataset, saveValidWords, splitDataset } from "./utils/file";
+import { loadSMSDataset, oversample, saveValidWords, splitDataset } from "./utils/file";
 import { preprocess } from "./utils/text";
 import fs from "fs";
 
@@ -9,6 +9,8 @@ const train = async () => {
   const dataset = loadSMSDataset("data/spam.csv");
   const { train } = splitDataset(dataset)
   const model = new NaiveBayes();
+
+  const balanced = oversample(train)
 
   for (const { text } of train) {
     const tokens = preprocess(text);
@@ -26,7 +28,7 @@ const train = async () => {
 
   await saveValidWords(validWords, "models/valid-words.json")
 
-  for (const { label, text } of train) {
+  for (const { label, text } of balanced) {
     const tokens = preprocess(text, validWords);
     model.train(label, tokens);
   }
