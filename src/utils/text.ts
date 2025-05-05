@@ -1,19 +1,18 @@
-import { PorterStemmer } from "natural";
+import { NGrams, PorterStemmer, WordTokenizer } from "natural";
 import { stopwords } from "./stopwords";
 
 const stem = (word: string): string => {
   return PorterStemmer.stem(word);
 };
-
+const tokenizer = new WordTokenizer()
 export const preprocess = (text: string, validWords?: Set<string>): string[] => {
-  const tokens = text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "")
-    .split(/\s+/)
+  const tokens = tokenizer.tokenize(text.toLowerCase())
     .filter((word) => word.length > 0 && !stopwords.has(word))
     .map(stem)
 
-  return validWords ? tokens.filter((w) => validWords.has(w)) : tokens;
+  const trigramStrings = NGrams.trigrams(tokens).map(gram => gram.join(" "))
+  const final = [...tokens, ...trigramStrings]
+  return validWords ? final.filter((w) => validWords.has(w)) : final;
 };
 
 
