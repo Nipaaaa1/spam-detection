@@ -16,3 +16,12 @@ export const loadSMSDataset = (filePath: string): { label: "spam" | "ham"; text:
     text: row[1],
   }));
 }
+
+export function splitDataset<T>(data: T[], trainRatio = 0.8): { train: T[]; test: T[] } {
+  const shuffled = [...data].sort(() => Math.random() - 0.5);
+  const trainSize = Math.floor(data.length * trainRatio);
+  return {
+    train: shuffled.slice(0, trainSize),
+    test: shuffled.slice(trainSize),
+  };
+}

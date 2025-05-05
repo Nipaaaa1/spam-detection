@@ -1,13 +1,14 @@
 import path from "path";
 import { NaiveBayes } from "../models/naive-bayes";
-import { loadSMSDataset } from "./utils/file";
+import { loadSMSDataset, splitDataset } from "./utils/file";
 import { preprocess } from "./utils/text";
 import fs from "fs";
 
 const dataset = loadSMSDataset("data/spam.csv");
+const { train } = splitDataset(dataset)
 const model = new NaiveBayes();
 
-for (const { label, text } of dataset) {
+for (const { label, text } of train) {
   const tokens = preprocess(text);
   model.train(label, tokens);
 }
