@@ -6,6 +6,7 @@ export class NaiveBayes {
   private spamDocs = 0;
   private hamDocs = 0;
   private vocabulary: Set<string> = new Set();
+  private vocabSize = 0;
 
   train(label: "spam" | "ham", tokens: string[]) {
     if (label === "spam") this.spamDocs++;
@@ -21,10 +22,11 @@ export class NaiveBayes {
         this.hamTotalWords++;
       }
     }
+    this.vocabulary = new Set([...Object.keys(this.spamWordCounts), ...Object.keys(this.hamWordCounts)]);
+    this.vocabSize = this.vocabulary.size
   }
 
   predict(tokens: string[]): "spam" | "ham" {
-    const vocabSize = this.vocabulary.size;
     const totalDocs = this.spamDocs + this.hamDocs;
 
     let spamScore = Math.log(this.spamDocs / totalDocs);
@@ -34,8 +36,8 @@ export class NaiveBayes {
       const spamCount = this.spamWordCounts[token] || 0;
       const hamCount = this.hamWordCounts[token] || 0;
 
-      const pTokenSpam = (spamCount + 1) / (this.spamTotalWords + vocabSize);
-      const pTokenHam = (hamCount + 1) / (this.hamTotalWords + vocabSize);
+      const pTokenSpam = (spamCount + 1) / (this.spamTotalWords + this.vocabSize);
+      const pTokenHam = (hamCount + 1) / (this.hamTotalWords + this.vocabSize);
 
       spamScore += Math.log(pTokenSpam);
       hamScore += Math.log(pTokenHam);
@@ -44,4 +46,4 @@ export class NaiveBayes {
     return spamScore > hamScore ? "spam" : "ham";
   }
 
-} // TODO: Save and load model to JSON
+}
