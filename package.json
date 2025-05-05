@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "train": "tsx ./src/train.ts"
+    "train": "tsx ./src/train.ts",
+    "evaluate": "tsx ./src/evaluate.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nipaaaa1",
+  "license": "MIT",
   "dependencies": {
     "csv-parse": "^5.6.0"
   },
